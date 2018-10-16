@@ -1,18 +1,25 @@
 const {AbstractActionHandler} = require("demux");
 const {MongoClient} = require("mongodb");
-const io = require("../utils/io");
+const io = require("./utils/io");
 
 class ActionHandler extends AbstractActionHandler
 {
-    constructor(updaters,effecters,uri) {
+    constructor(updaters,effects,uri) {
 
 
-        super(updaters,effecters);
+        super(updaters,effects);
         var mongoClient = new MongoClient(uri);
+
         this.battleship = mongoClient.db("battleship");
         this.battleship.createCollection("games" );
-        this.battleship.createCollection("block");
-        this.battleship.createCollection("users");
+        this.battleship.createCollection("blockState");
+        this.battleship.createCollection("queue");
+        this.battleship.createCollection("availableGameKey");
+        this.battleship.collection("availableGameKey").update({},
+            {
+               availableGameKey: 0
+            },{upsert:true});
+
         process.on("SIGINT" , () => {
             this.client.close();
             this.client.db("battleship").dropDatabase();
@@ -22,7 +29,13 @@ class ActionHandler extends AbstractActionHandler
     async handleWithState(handle)
     {
         const context = {socket : io.getSocket()};
-        const state = {client : this.client};
+        const state = {
+            queue : this.battleship.collection("queue"),
+            block : this.battleship.collection("blockState"),
+            games : this.battleship.collection("games"),
+            availableGameKey : this.battleship.collection("availableGameKey")
+        };
+
         try
         {
             await handle(state,context);
@@ -38,7 +51,7 @@ class ActionHandler extends AbstractActionHandler
         const {blockInfo} = block;
         try
         {
-            this.battleship.collection("block").update({}, {
+            this.battleship.collection("blockState").update({}, {
                 blockNumber : blockInfo.blockNumber,
                 blockHash : blockInfo.blockHash,
                 isReplay
@@ -56,7 +69,7 @@ class ActionHandler extends AbstractActionHandler
         {
             let blockHash;
             let blockNumber;
-            const indexState = this.battleship.collection("block").findOne({});
+            const indexState = this.battleship.collection("blockState").findOne({});
             if (indexState)
             {
                 ({blockHash, blockNumber} = indexState);
