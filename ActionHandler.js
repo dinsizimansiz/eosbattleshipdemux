@@ -4,7 +4,7 @@ const io = require("./utils/io");
 
 class ActionHandler extends AbstractActionHandler
 {
-    constructor(updaters,effects,uri) {
+    async constructor(updaters,effects,uri) {
 
 
         super(updaters,effects);
@@ -15,7 +15,7 @@ class ActionHandler extends AbstractActionHandler
         this.battleship.createCollection("blockState");
         this.battleship.createCollection("queue");
         this.battleship.createCollection("availableGameKey");
-        this.battleship.collection("availableGameKey").update({},
+        await this.battleship.collection("availableGameKey").update({},
             {
                availableGameKey: 0
             },{upsert:true});
@@ -51,7 +51,7 @@ class ActionHandler extends AbstractActionHandler
         const {blockInfo} = block;
         try
         {
-            this.battleship.collection("blockState").update({}, {
+            await this.battleship.collection("blockState").update({}, {
                 blockNumber : blockInfo.blockNumber,
                 blockHash : blockInfo.blockHash,
                 isReplay
@@ -69,7 +69,7 @@ class ActionHandler extends AbstractActionHandler
         {
             let blockHash;
             let blockNumber;
-            const indexState = this.battleship.collection("blockState").findOne({});
+            const indexState = await this.battleship.collection("blockState").findOne({});
             if (indexState)
             {
                 ({blockHash, blockNumber} = indexState);

@@ -12,4 +12,4 @@ function getUser(game , userid)
 }
 
 
-module.exports.getUser = getUser;
+module.exports = getUser;
