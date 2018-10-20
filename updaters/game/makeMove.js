@@ -1,4 +1,3 @@
-//TODO
 const {getOpponent,getUser,updateGame,isTurn,convertToIndex,inTable} = require("utils");
 
 async function makeMove(state,payload,blockInfo,context)
