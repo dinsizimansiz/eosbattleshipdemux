@@ -1,8 +1,8 @@
-const {inGame} = require("./inGame");
+const inGame = require("./inGame");
 
-function destroyGame(gamesCollection,hostid,challengerid)
+async function destroyGame(gamesCollection,hostid,challengerid)
 {
-    gamesCollection.delete({
+    await gamesCollection.delete({
         host:{
             userid : hostid
         },
@@ -12,4 +12,4 @@ function destroyGame(gamesCollection,hostid,challengerid)
     });
 }
 
-module.exports.destroyGame = destroyGame;
+module.exports = destroyGame;

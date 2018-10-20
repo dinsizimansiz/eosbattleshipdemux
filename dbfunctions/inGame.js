@@ -13,4 +13,4 @@ function inGame(gamesCollection, userid)
 
 }
 
-module.exports.inGame = inGame;
+module.exports = inGame;
