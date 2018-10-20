@@ -1,4 +1,3 @@
-//void placeship(account_name player,string shipname,uint8_t x,uint8_t y,string direction)
 const {inGame} = require("dbfunctions");
 const {updateGame,getUser,getCoords,shipGetter,convertToIndex} = require("../../utils");
 
