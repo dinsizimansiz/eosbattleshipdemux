@@ -8,19 +8,16 @@ async function enqueue(state,payload,blockInfo,context)
     {
         const userid = payload.data.player;
         let player = queue.findOne({userid : userid});
+        var hostid;
+        var challengerid;
 
-        if(inGame(games,userid))
-        {
-            return;
-        }
+        if(!player && inGame(games,userid)) {
 
-        if(!player) {
             await queue.insertOne({userid: userid});
 
             await queue.find({}).toArray(function (err, docs) {
 
-                var hostid;
-                var challengerid;
+
 
                 if (docs.length === 2) {
                     hostid = docs[0].userid;
@@ -31,9 +28,7 @@ async function enqueue(state,payload,blockInfo,context)
 
             await queue.remove({$or :[{userid : hostid},{userid:challengerid}]});
 
-            let games = state.games;
 
-            await createGame(games , hostid, challengerid);
         }
 
     }

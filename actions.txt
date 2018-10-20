@@ -5,5 +5,4 @@ void ready(account_name player)
 void unready(account_name player)
 void makemove(account_name player,uint8_t x,uint8_t y)
 void removeship(account_name player,string shipname)
-
-
+void creategame(account_name host,account_name challenger)
