@@ -1,13 +1,13 @@
 const { BaseActionWatcher } = require('demux');
 const { NodeosActionReader } = require('demux-eos');
-
+const dbConnection = require("./utils/db");
 
 const ActionHandler = require('./ActionHandler');
 
 const updaters = require('./updaters');
 const effects = require('./effects');
 
-const actionHandler = new ActionHandler(updaters, effects, process.env.MONGODB_URL);
+const actionHandler = new ActionHandler(updaters, effects, );
 
 const actionReader = new NodeosActionReader(
     process.env.EOSIO_HTTP_URL,
@@ -20,4 +20,7 @@ const actionWatcher = new BaseActionWatcher(
     250
 );
 
-module.exports = actionWatcher;
+module.exports = {
+    actionWatcher,
+    dbConnection
+};

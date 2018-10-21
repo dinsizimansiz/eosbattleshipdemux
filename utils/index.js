@@ -7,9 +7,9 @@ const convertToIndex = require("./convertToIndex");
 const getOpponent = require("./getOpponent");
 const isTurn = require("./isTurn");
 const canBeReady = require("./canBeReady");
-const {emptyEnemyTable,emptyPlayerTable} = require("emptyTables");
+const {emptyEnemyTable,emptyPlayerTable} = require("eosbattleshipdemux/utils/initializers");
 const gameFinished = require("./gameFinished");
-
+const getShipName = require("./getShipName");
 
 module.exports = {
     getCoords,
@@ -23,5 +23,6 @@ module.exports = {
     convertToIndex,
     emptyPlayerTable,
     emptyEnemyTable,
-    gameFinished
+    gameFinished,
+    getShipName
 };

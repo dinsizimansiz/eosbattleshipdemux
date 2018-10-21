@@ -1,5 +1,6 @@
 const {getOpponent,getUser,updateGame,isTurn,convertToIndex,inTable,gameFinished} = require("utils");
 const {destroyGame} = require("dbfunctions");
+
 async function makeMove(state,payload,blockInfo,context)
 {
 
@@ -8,22 +9,15 @@ async function makeMove(state,payload,blockInfo,context)
     var y = payload.data.y;
     var games = state.games;
     try {
-        var game;
-        var user;
-        var moveMade = false;
-        await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]})
-            .toArray()
-            .then((data) => {
-                game = data[0];
-                user = getUser(game, userid);
-                if (isTurn(game, user)) {
-                    let {playerTable} = getOpponent(game, userid);
-                    let res = _makeMove(user.enemyTable, playerTable, x, y);
+        var game = await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]});
+        var user = getUser(game, userid);
+        if (isTurn(game, user)) {
+            let {playerTable} = getOpponent(game, userid);
+            let res = _makeMove(user.enemyTable, playerTable, x, y);
 
-                    moveMade = res.done;
-                    user.enemyTable = res.enemyTable;
-                }
-            });
+            var moveMade = res.done;
+            user.enemyTable = res.enemyTable;
+        }
 
         if (moveMade) {
             game = updateGame(game, userid, user);

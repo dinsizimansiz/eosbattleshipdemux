@@ -12,16 +12,11 @@ async function placeShip(state, payload, blockInfo, context)
     var x = payload.data.x;
     var y = payload.data.y;
     var direction = payload.data.direction;
+
     try {
-        var user;
-        var game;
-        await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]})
-            .toArray()
-            .then((data) => {
-                game = data[0];
-                user = getUser(game, userid);
-                user.playerTable = _placeShip(user.playerTable, shipName, x, y, direction);
-            });
+        var game = await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]});
+        var user = getUser(game, userid);
+        user.playerTable = _placeShip(user.playerTable, shipName, x, y, direction);
         game = updateGame(game,userid,user);
         await games.updateOne({_id : game._id},game);
     }
