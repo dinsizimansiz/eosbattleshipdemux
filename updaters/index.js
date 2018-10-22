@@ -5,11 +5,15 @@ var contractName = "battleship";
 
 module.exports = [
     {
-        actionType : "${contractName}::createGame",
+        actionType : "${contractName}::creategame",
         updater : game.createGame
     },
     {
-        actionType : "${contractName}::getReady",
+        actionType : "${contractName}::destroygame",
+        updater : game.destroyGame
+    },
+    {
+        actionType : "${contractName}::getready",
         updater : game.getReady
     },
     {

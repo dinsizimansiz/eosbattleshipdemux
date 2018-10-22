@@ -1,4 +1,5 @@
 const createGame = require("./createGame");
+const destroyGame = require("./destroyGame");
 const getReady = require("./getReady");
 const getUnready = require("./getUnready");
 const makeMove = require("./makeMove");

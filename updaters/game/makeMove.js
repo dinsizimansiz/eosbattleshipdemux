@@ -23,10 +23,7 @@ async function makeMove(state,payload,blockInfo,context)
             game = updateGame(game, userid, user);
             game.round += 1;
             await games.updateOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]}, game);
-            if(gameFinished(user.enemyTable))
-            {
-                await destroyGame(games,game.host.userid,game.challenger.userid);
-            }
+
         }
     }
     catch(err)
