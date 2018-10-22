@@ -7,7 +7,7 @@ const ActionHandler = require('./ActionHandler');
 const updaters = require('./updaters');
 const effects = require('./effects');
 
-const actionHandler = new ActionHandler(updaters, effects, );
+const actionHandler = new ActionHandler(updaters, effects,dbConnection());
 
 const actionReader = new NodeosActionReader(
     process.env.EOSIO_HTTP_URL,

@@ -5,7 +5,7 @@ const getUnready = require("./getUnready");
 const makeMove = require("./makeMove");
 const placeShip = require("./placeShip");
 const removeShip = require("./removeShip");
-
+const winnder = require("./winner");
 
 module.exports = {
     createGame,
@@ -13,5 +13,7 @@ module.exports = {
     getUnready,
     makeMove,
     placeShip,
-    removeShip
+    removeShip,
+    destroyGame,
+    winner
 };

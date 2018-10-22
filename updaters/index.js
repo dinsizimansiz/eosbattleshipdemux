@@ -1,5 +1,4 @@
 const game = require("./game");
-const queue = require("./queue");
 
 var contractName = "battleship";
 
@@ -33,11 +32,7 @@ module.exports = [
         updater : game.removeShip
     },
     {
-        actionType : "${contractName}::enqueue",
-        updater : queue.enqueue
-    },
-    {
-        actionType : "${contractName}::dequeue",
-        updater : queue.dequeue
+        actionType : "${contractName}::winner",
+        updater : game.winner
     }
 ];
