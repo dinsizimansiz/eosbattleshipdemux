@@ -1,5 +1,4 @@
-const {getOpponent,getUser,updateGame,isTurn,convertToIndex,inTable,gameFinished} = require("utils");
-const {destroyGame} = require("dbfunctions");
+const {getOpponent,getUser,updateGame,isTurn,convertToIndex,inTable,gameFinished} = require("../../utils");
 
 async function makeMove(state,payload,blockInfo,context)
 {

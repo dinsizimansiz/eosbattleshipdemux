@@ -5,7 +5,7 @@ const getUnready = require("./getUnready");
 const makeMove = require("./makeMove");
 const placeShip = require("./placeShip");
 const removeShip = require("./removeShip");
-const winnder = require("./winner");
+const winner = require("./winner");
 
 module.exports = {
     createGame,

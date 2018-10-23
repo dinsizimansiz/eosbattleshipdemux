@@ -1,32 +1,30 @@
 const {AbstractActionHandler} = require("demux");
 const io = require("./utils/io");
+const {MongoClient} = require("mongodb");
 
 class ActionHandler extends AbstractActionHandler
 {
-    async constructor(updaters,effects,dbConnection) {
+    constructor(updaters,effects) {
 
 
         super(updaters,effects);
-        this.battleship = dbConnection;
-        await this.battleship.createCollection("games" );
-        await this.battleship.createCollection("blockState");
-        await this.battleship.createCollection("queue");
-        await this.battleship.createCollection("availableGameKey");
-
-
-        process.on("SIGINT" , () => {
-            this.battleship.dropDatabase();
+        MongoClient("mongodb://localhost:27017").connect().then((mongoClient) => {
+            let _db = mongoClient.db("battleship");
+            this.games = _db.collection("games");
+            this.blockState = _db.collection("blockState");
         });
+
+
+        console.log(this.games);
     }
+
 
     async handleWithState(handle)
     {
         const context = {socket : io.getSocket()};
         const state = {
-            queue : this.battleship.collection("queue"),
-            block : this.battleship.collection("blockState"),
+            block : this.blockState,
             games : this.battleship.collection("games"),
-            availableGameKey : this.battleship.collection("availableGameKey")
         };
 
         try

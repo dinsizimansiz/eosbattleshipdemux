@@ -1,4 +1,4 @@
-const {inGame} = require("dbfunctions");
+const {inGame} = require("../../dbfunctions");
 const {updateGame,getUser,getCoords,shipGetter,convertToIndex} = require("../../utils");
 
 async function placeShip(state, payload, blockInfo, context)

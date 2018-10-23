@@ -1,4 +1,4 @@
-const {getUser,shipGetter,updateGame} = require("utils");
+const {getUser,shipGetter,updateGame} = require("../../utils");
 
 async function removeShip(state, payload, blockInfo, context)
 {

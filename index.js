@@ -1,17 +1,18 @@
 const { BaseActionWatcher } = require('demux');
 const { NodeosActionReader } = require('demux-eos');
-const dbConnection = require("./utils/db");
 
 const ActionHandler = require('./ActionHandler');
 
 const updaters = require('./updaters');
+const EOSIO_HTTP_URL = "127.0.0.1:8888/";
+
 const effects = require('./effects');
 
-const actionHandler = new ActionHandler(updaters, effects,dbConnection());
 
+const actionHandler = new ActionHandler(updaters, effects);
 const actionReader = new NodeosActionReader(
-    process.env.EOSIO_HTTP_URL,
-    parseInt(process.env.EOSIO_STARTING_BLOCK, 10)
+    EOSIO_HTTP_URL,
+    0
 );
 
 const actionWatcher = new BaseActionWatcher(
@@ -20,7 +21,8 @@ const actionWatcher = new BaseActionWatcher(
     250
 );
 
+
+
 module.exports = {
-    actionWatcher,
-    dbConnection
+    actionWatcher
 };

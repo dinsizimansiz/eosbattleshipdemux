@@ -1,17 +1,20 @@
 var {MongoClient} = require("mongodb");
 
 
-var connection = null;
-const URL = process.env.MONGODB_URL;
+const URL = "mongodb://localhost:27017";
 
-get = () => {
-    if(!connection)
-    {
-        var mongoClient = MongoClient(URL);
-        connection =  mongoClient.db("battleship");
 
-    }
-    return connection;
+get = async () => {
+    var games , blockState;
+    MongoClient(URL).connect().then((client) => {
+       let _db = client.db("battleship");
+       games = _db.collection("games");
+       blockState = _db.getCollection("blockState");
+       console.log(blockState);
+       return {games,blockState};
+    });
+
+
 };
 
 module.exports = get;

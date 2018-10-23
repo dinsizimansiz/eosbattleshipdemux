@@ -1,4 +1,4 @@
-const {emptyEnemyTable,emptyPlayerTable} = require("utils");
+const {emptyEnemyTable,emptyPlayerTable} = require("../../utils");
 async function createGame(state,payload,blockInfo,context)
 {
     var hostid = payload.data.host;
