@@ -1,1 +1,5 @@
-module.exports = [];
+const effects = require("./game");
+
+module.exports = [
+    ...effects
+];

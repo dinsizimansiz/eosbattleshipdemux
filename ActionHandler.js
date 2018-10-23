@@ -14,17 +14,14 @@ class ActionHandler extends AbstractActionHandler
             this.blockState = _db.collection("blockState");
         });
 
-
-        console.log(this.games);
     }
-
 
     async handleWithState(handle)
     {
         const context = {socket : io.getSocket()};
         const state = {
             block : this.blockState,
-            games : this.battleship.collection("games"),
+            games : this.games,
         };
 
         try
@@ -37,16 +34,17 @@ class ActionHandler extends AbstractActionHandler
         }
     }
 
-    async updateIndexState(state,block,isReplay)
+    async updateIndexState(state,block,isReplay,context)
     {
         const {blockInfo} = block;
         try
         {
-            await this.battleship.collection("blockState").update({}, {
+            await this.blockState.update({}, {
                 blockNumber : blockInfo.blockNumber,
                 blockHash : blockInfo.blockHash,
                 isReplay
             },{upsert:true});
+
         }
         catch(err)
         {
@@ -60,7 +58,7 @@ class ActionHandler extends AbstractActionHandler
         {
             let blockHash;
             let blockNumber;
-            const indexState = await this.battleship.collection("blockState").findOne({});
+            const indexState = this.blockState.findOne({});
             if (indexState)
             {
                 ({blockHash, blockNumber} = indexState);
