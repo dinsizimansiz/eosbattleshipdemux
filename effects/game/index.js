@@ -6,11 +6,11 @@ var contractName = "battleship";
 
 module.exports = [
     {
-        actionType : "${contractName}::creategame",
+        actionType : `${contractName}::creategame`,
         effect : createGame
     },
     {
-        actionType : "${contractName}::destroygame",
+        actionType : `${contractName}::destroygame`,
         effect : destroyGame
     }
 ];

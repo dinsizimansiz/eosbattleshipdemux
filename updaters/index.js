@@ -4,35 +4,35 @@ var contractName = "battleship";
 
 module.exports = [
     {
-        actionType : "${contractName}::creategame",
+        actionType : `${contractName}::creategame`,
         updater : game.createGame
     },
     {
-        actionType : "${contractName}::destroygame",
+        actionType : `${contractName}::destroygame`,
         updater : game.destroyGame
     },
     {
-        actionType : "${contractName}::getready",
+        actionType : `${contractName}::getready`,
         updater : game.getReady
     },
     {
-        actionType : "${contractName}::getUnready",
+        actionType : `${contractName}::getUnready`,
         updater : game.getUnready
     },
     {
-        actionType : "${contractName}::makeMove",
+        actionType : `${contractName}::makeMove`,
         updater : game.makeMove
     },
     {
-        actionType : "${contractName}::placeShip",
+        actionType : `${contractName}::placeShip`,
         updater : game.placeShip
     },
     {
-        actionType : "${contractName}::removeShip",
+        actionType : `${contractName}::removeShip`,
         updater : game.removeShip
     },
     {
-        actionType : "${contractName}::winner",
+        actionType : `${contractName}::winner`,
         updater : game.winner
     }
 ];
