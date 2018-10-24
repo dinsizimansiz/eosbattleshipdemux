@@ -1,5 +1,5 @@
-const createGame = require("createGame");
-const destroyGame = require("destroyGame");
+const createGame = require("./createGame");
+const destroyGame = require("./destroyGame");
 
 var contractName = "battleship";
 
