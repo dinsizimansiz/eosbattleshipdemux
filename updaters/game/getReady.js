@@ -3,15 +3,31 @@ const {canBeReady} = require("../../utils");
 async function getReady(state,payload,blockInfo,context)
 {
     var userid = payload.data.player;
-    var games = state.games;
+    var client = state.client;
     try {
-        var game = await games.findOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]});
-        var user = getUser(game, userid);
-        if (canBeReady(game, user)) {
-            user.ready = true;
-        }
-        game = updateGame(game,userid,user);
-        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},{$set:game});
+        client.then((mongoClient) => {
+
+            let games = mongoClient.db("battleship").collection("games");
+            games.findOne({$or: [{"host.userid" :userid}, {"challenger.userid": userid}]}).then((game) => {
+                if(game.started)
+                {
+                    return;
+                }
+                let user = getUser(game, userid);
+                if (canBeReady(game, user)) {
+                    user.ready = true;
+                }
+                if(game.host.ready && game.challenger.ready)
+                {
+                    game.started = true;
+                }
+                game = updateGame(game,userid,user);
+                games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]}, {$set:game});
+            });
+
+
+
+        });
     }
     catch(err)
     {
