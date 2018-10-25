@@ -1,4 +1,4 @@
-const {canBeReady} = require("../../utils");
+const {canBeReady,getUser} = require("../../utils");
 
 async function getReady(state,payload,blockInfo,context)
 {
