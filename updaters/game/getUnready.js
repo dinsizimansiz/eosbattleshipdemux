@@ -8,7 +8,7 @@ async function getUnready(state,payload,blockInfo,context)
         var user = getUser(game,userid);
         user.ready = false;
         game = updateGame(game,userid,user);
-        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},game);
+        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},{$set:game});
     }
     catch(err)
     {

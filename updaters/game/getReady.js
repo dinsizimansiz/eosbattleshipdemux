@@ -11,7 +11,7 @@ async function getReady(state,payload,blockInfo,context)
             user.ready = true;
         }
         game = updateGame(game,userid,user);
-        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},game);
+        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},{$set:game});
     }
     catch(err)
     {
