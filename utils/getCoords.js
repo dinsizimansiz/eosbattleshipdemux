@@ -9,8 +9,7 @@ getCoords = (shipName,x,y,direction) => {
         return [];
     }
     const shipSize = ship.size;
-    const shipChar = ship.shipChar;
-    var retArray = [];
+    let retArray = [];
     if(direction === "north" || direction === "n")
     {
         for(i = 0; i < shipSize;i++)

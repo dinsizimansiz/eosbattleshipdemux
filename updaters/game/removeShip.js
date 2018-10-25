@@ -4,17 +4,21 @@ async function removeShip(state, payload, blockInfo, context)
 {
     var userid = payload.data.player;
     var shipName = payload.data.shipname;
-    var games = state.games;
+    var client = state.client;
 
     try
     {
-        var game;
-        var user;
-        var game = await games.findOne({$or: [{"host.userid":  userid}, {"challenger.userid" :userid}]});
-        user = getUser(game, userid);
-        user.playerTable = _removeShip(user.playerTable, shipName);
-        game = updateGame(game,userid,user);
-        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},{$set:game});
+        client.then((mongoClient) => {
+
+            let games = mongoClient.db("battleship").collection("games");
+
+            games.findOne({$or: [{"host.userid":  userid}, {"challenger.userid" :userid}]}).then((game) => {
+                let user = getUser(game, userid);
+                user.playerTable = _removeShip(user.playerTable, shipName);
+                game = updateGame(game,userid,user);
+                games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},{$set:game});
+            });
+        });
     }
 
 
@@ -27,7 +31,7 @@ async function removeShip(state, payload, blockInfo, context)
 
 _removeShip = function(playerTable, shipName) {
 
-    var {shipChar} = shipGetter(shipName);
+    let {shipChar} = shipGetter(shipName);
     playerTable.forEach(function(item,index,arr) {
         if(item === shipChar)
         {
