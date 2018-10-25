@@ -12,11 +12,11 @@ module.exports = [
         updater : game.destroyGame
     },
     {
-        actionType : `${contractName}::getready`,
+        actionType : `${contractName}::ready`,
         updater : game.getReady
     },
     {
-        actionType : `${contractName}::getunready`,
+        actionType : `${contractName}::unready`,
         updater : game.getUnready
     },
     {
