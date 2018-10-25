@@ -4,7 +4,7 @@ async function destroyGame(state,payload,blockInfo,context)
 {
     var hostid = payload.data.host;
     var challengerid = payload.data.challenger;
-    var games = state.games;
+    var client = state.client;
 
     let keys = Object.keys(adapter.usedAccounts);
     let values = Object.values(adapter.usedAccounts);
@@ -25,13 +25,8 @@ async function destroyGame(state,payload,blockInfo,context)
 
 
     try {
-        await games.delete({
-            host: {
-                userid: hostid
-            },
-            challenger: {
-                userid: challengerid
-            }
+        client.then((mongoClient) =>{
+           mongoClient.db("battleship").collection("games").delete({"host.userid":hostid,"challenger.userid":challengerid});
         });
     }
     catch(err)

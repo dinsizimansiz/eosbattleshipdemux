@@ -8,11 +8,7 @@ class ActionHandler extends AbstractActionHandler
 
 
         super(updaters,effects);
-        MongoClient("mongodb://localhost:27017").connect().then((mongoClient) => {
-            let _db = mongoClient.db("battleship");
-            this.games = _db.collection("games");
-            this.blockState = _db.collection("blockState");
-        });
+        this.client = MongoClient("mongodb://localhost:27017").connect()
 
     }
 
@@ -20,8 +16,7 @@ class ActionHandler extends AbstractActionHandler
     {
         const context = {socket : io.getSocket()};
         const state = {
-            block : this.blockState,
-            games : this.games,
+            client : this.client
         };
 
         try
@@ -39,11 +34,15 @@ class ActionHandler extends AbstractActionHandler
         const {blockInfo} = block;
         try
         {
-            await this.blockState.update({}, {
-                blockNumber : blockInfo.blockNumber,
-                blockHash : blockInfo.blockHash,
-                isReplay
-            },{upsert:true});
+            this.client.then((mongoClient) =>{
+                let blockState = mongoClient.db("battleship").collection("blockState");
+                blockState.update({}, {
+                    blockNumber : blockInfo.blockNumber,
+                    blockHash : blockInfo.blockHash,
+                    isReplay
+                },{upsert:true});
+            });
+
 
         }
         catch(err)
@@ -58,7 +57,12 @@ class ActionHandler extends AbstractActionHandler
         {
             let blockHash;
             let blockNumber;
-            const indexState = this.blockState.findOne({});
+            var indexState ;
+
+            this.client.then((mongoClient) => {
+               mongoClient.db("battleship").collection("blockState").findOne({}).then();
+            });
+
             if (indexState)
             {
                 ({blockHash, blockNumber} = indexState);

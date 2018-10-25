@@ -10,11 +10,11 @@ async function removeShip(state, payload, blockInfo, context)
     {
         var game;
         var user;
-        var game = await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]});
+        var game = await games.findOne({$or: [{"host.userid":  userid}, {"challenger.userid" :userid}]});
         user = getUser(game, userid);
         user.playerTable = _removeShip(user.playerTable, shipName);
         game = updateGame(game,userid,user);
-        await games.updateOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]},game);
+        await games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]},game);
     }
 
 

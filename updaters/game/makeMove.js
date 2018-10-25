@@ -6,24 +6,30 @@ async function makeMove(state,payload,blockInfo,context)
     var userid = payload.data.player;
     var x = payload.data.x;
     var y = payload.data.y;
-    var games = state.games;
+    var client = state.client;
+    var moveMade,user,game;
     try {
-        var game = await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]});
-        var user = getUser(game, userid);
-        if (isTurn(game, user)) {
-            let {playerTable} = getOpponent(game, userid);
-            let res = _makeMove(user.enemyTable, playerTable, x, y);
+        client.then((mongoClient) => {
 
-            var moveMade = res.done;
-            user.enemyTable = res.enemyTable;
-        }
+            let games = mongoClient.db("battleship").collection("games");
+            games.findOne({$or: [{"host.userid" :userid}, {"challenger.userid": userid}]}).then((_game) => {
+                game = _game;
+                user = getUser(game, userid);
+                if (isTurn(game, user)) {
+                    let {playerTable} = getOpponent(game, userid);
+                    let res = _makeMove(user.enemyTable, playerTable, x, y);
 
-        if (moveMade) {
-            game = updateGame(game, userid, user);
-            game.round += 1;
-            await games.updateOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]}, game);
+                    moveMade = res.done;
+                    user.enemyTable = res.enemyTable;
+                }
+            });
 
-        }
+            if (moveMade) {
+                game = updateGame(game, userid, user);
+                game.round += 1;
+                games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]}, game);
+            }
+        });
     }
     catch(err)
     {

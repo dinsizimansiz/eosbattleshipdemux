@@ -14,7 +14,7 @@ async function placeShip(state, payload, blockInfo, context)
     var direction = payload.data.direction;
 
     try {
-        var game = await games.findOne({$or: [{host: {userid: userid}}, {challenger: {userid: userid}}]});
+        var game = await games.findOne({$or: [{"host.userid":userid}, {"challenger.userid": userid}]});
         var user = getUser(game, userid);
         user.playerTable = _placeShip(user.playerTable, shipName, x, y, direction);
         game = updateGame(game,userid,user);
