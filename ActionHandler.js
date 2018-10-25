@@ -8,8 +8,11 @@ class ActionHandler extends AbstractActionHandler
 
 
         super(updaters,effects);
+        this.client = MongoClient("mongodb://localhost:27017").connect(function(err,db)
+        {
+            db.db("battleship").dropCollection("games");
+        });
         this.client = MongoClient("mongodb://localhost:27017").connect();
-
 
     }
 

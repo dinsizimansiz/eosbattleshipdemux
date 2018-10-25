@@ -7,6 +7,7 @@ updateGame = (game, userid, newUser) => {
   {
       game.host = newUser;
   }
+
   return game;
 };
 

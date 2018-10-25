@@ -27,7 +27,7 @@ async function makeMove(state,payload,blockInfo,context)
             if (moveMade) {
                 game = updateGame(game, userid, user);
                 game.round += 1;
-                games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]}, game);
+                games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]}, {$set:game});
             }
         });
     }

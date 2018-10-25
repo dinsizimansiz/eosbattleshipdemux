@@ -15,7 +15,7 @@ async function createGame(state,payload,blockInfo,context)
                     userid: hostid,
                     ready: false,
                     playerTable: emptyPlayerTable,
-                    enemyTable: emptyPlayerTable
+                    enemyTable: emptyEnemyTable
                 },
                 challenger: {
                     userid: challengerid,

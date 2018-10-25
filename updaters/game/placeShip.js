@@ -19,7 +19,7 @@ async function placeShip(state, payload, blockInfo, context)
                 let user = getUser(game, userid);
                 user.playerTable = _placeShip(user.playerTable, shipName, x, y, direction);
                 game = updateGame(game, userid, user);
-                games.updateOne({_id: game._id}, game);
+                games.updateOne({$or :[{"host.userid" : userid},{"challenger.userid":userid}]}, {$set:game},{upsert:true});
             });
         });
     }

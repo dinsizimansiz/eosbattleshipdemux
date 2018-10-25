@@ -3,8 +3,8 @@ const shipGetter = require("./shipGetter");
 getCoords = (shipName,x,y,direction) => {
 
     const ship = shipGetter(shipName);
-    const inBoard = inBoard(x,y);
-    if(ship === {} || !inBoard)
+    const isInBoard = inBoard(x,y);
+    if(ship === {} || !isInBoard)
     {
         return [];
     }
