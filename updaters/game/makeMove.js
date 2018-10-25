@@ -38,7 +38,8 @@ async function makeMove(state,payload,blockInfo,context)
 
 _makeMove = function(enemyTable,playerTable,x,y){
 
-    if(enemyTable[convertToIndex(x,y)] !== "X" || !inBoard(x,y))
+    let index = convertToIndex(x,y);
+    if(enemyTable[index] !== "X" || !inBoard(x,y))
     {
         return {done:false,enemyTable:enemyTable};
     }

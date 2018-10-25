@@ -14,7 +14,7 @@ async function getReady(state,payload,blockInfo,context)
                     return;
                 }
                 let user = getUser(game, userid);
-                if (canBeReady(game, user))
+                if (canBeReady(user.playerTable))
                 {
                     user.ready = true;
                 }
