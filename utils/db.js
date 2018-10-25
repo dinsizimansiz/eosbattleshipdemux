@@ -10,7 +10,6 @@ get = async () => {
        let _db = client.db("battleship");
        games = _db.collection("games");
        blockState = _db.getCollection("blockState");
-       console.log(blockState);
        return {games,blockState};
     });
 

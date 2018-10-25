@@ -10,14 +10,12 @@ async function placeShip(state, payload, blockInfo, context)
     var x = payload.data.x;
     var y = payload.data.y;
     var direction = payload.data.direction;
-    console.log("asdfasdfasdf")
     try {
         client.then((mongoClient) => {
 
             let games = mongoClient.db("battleship").collection("games");
 
             games.findOne({$or: [{"host.userid":userid}, {"challenger.userid": userid}]}).then((game) => {
-                console.log(game);
                 let user = getUser(game, userid);
                 user.playerTable = _placeShip(user.playerTable, shipName, x, y, direction);
                 game = updateGame(game, userid, user);
