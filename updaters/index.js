@@ -16,19 +16,19 @@ module.exports = [
         updater : game.getReady
     },
     {
-        actionType : `${contractName}::getUnready`,
+        actionType : `${contractName}::getunready`,
         updater : game.getUnready
     },
     {
-        actionType : `${contractName}::makeMove`,
+        actionType : `${contractName}::makemove`,
         updater : game.makeMove
     },
     {
-        actionType : `${contractName}::placeShip`,
+        actionType : `${contractName}::placeship`,
         updater : game.placeShip
     },
     {
-        actionType : `${contractName}::removeShip`,
+        actionType : `${contractName}::removeship`,
         updater : game.removeShip
     },
     {

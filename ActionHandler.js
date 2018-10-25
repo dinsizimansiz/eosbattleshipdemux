@@ -8,7 +8,8 @@ class ActionHandler extends AbstractActionHandler
 
 
         super(updaters,effects);
-        this.client = MongoClient("mongodb://localhost:27017").connect()
+        this.client = MongoClient("mongodb://localhost:27017").connect();
+
 
     }
 

@@ -3,6 +3,7 @@ async function createGame(state,payload,blockInfo,context)
 {
     try {
         state.client.then((mongoClient) => {
+
             let _db = mongoClient.db("battleship");
             let hostid = payload.data.host;
             let challengerid = payload.data.challenger;
