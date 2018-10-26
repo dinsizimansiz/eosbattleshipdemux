@@ -2,7 +2,6 @@ const {getOpponent,getUser,updateGame,isTurn,convertToIndex,inBoard} = require("
 
 async function makeMove(state,payload,blockInfo,context)
 {
-
     var userid = payload.data.player;
     var x = payload.data.x;
     var y = payload.data.y;
@@ -16,18 +15,16 @@ async function makeMove(state,payload,blockInfo,context)
                 if (isTurn(game, user)) {
                     let {playerTable} = getOpponent(game, userid);
                     let res = _makeMove(user.enemyTable, playerTable, x, y);
-
                     let moveMade = res.done;
                     user.enemyTable = res.enemyTable;
-                    if (moveMade) {
+                    if (moveMade)
+                    {
                         game = updateGame(game, userid, user);
                         game.round += 1;
                         games.updateOne({$or: [{"host.userid": userid}, {"challenger.userid": userid}]}, {$set:game});
                     }
                 }
             });
-
-
         });
     }
     catch(err)
@@ -37,7 +34,6 @@ async function makeMove(state,payload,blockInfo,context)
 }
 
 _makeMove = function(enemyTable,playerTable,x,y){
-
     let index = convertToIndex(x,y);
     if(enemyTable[index] !== "X" || !inBoard(x,y))
     {
